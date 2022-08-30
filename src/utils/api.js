@@ -52,7 +52,6 @@ function getStarsCount(repos) {
 }
 
 function calculateScore(followers, repos) {
-  console.log(followers * 3 + getStarsCount(repos));
   return followers * 3 + getStarsCount(repos);
 }
 
