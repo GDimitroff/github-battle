@@ -1,6 +1,28 @@
 import * as React from 'react';
-import LanguagesNav from './LanguagesNav';
 import { fetchPopularRepos } from '../utils/api';
+import PropTypes from 'prop-types';
+import Table from './Table';
+
+function LanguagesNav({ selected, onUpdateLanguage }) {
+  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+
+  return (
+    <select
+      onChange={(e) => onUpdateLanguage(e.target.value)}
+      selected={selected}>
+      {languages.map((language) => (
+        <option key={language} value={language}>
+          {language}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+LanguagesNav.propTypes = {
+  selected: PropTypes.string.isRequired,
+  onUpdateLanguage: PropTypes.func.isRequired,
+};
 
 export default class Popular extends React.Component {
   constructor(props) {
@@ -55,8 +77,7 @@ export default class Popular extends React.Component {
         </div>
 
         {error && <p className="text-center error">{error}</p>}
-
-        {repos && <pre>{JSON.stringify(repos, null, 2)}</pre>}
+        {repos && <Table repos={repos} />}
       </main>
     );
   }
