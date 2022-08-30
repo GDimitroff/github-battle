@@ -68,8 +68,8 @@ export default class Results extends React.Component {
     super(props);
 
     this.state = {
-      winner: null,
-      loser: null,
+      playerOne: null,
+      playerTwo: null,
       error: null,
       loading: true,
     };
@@ -81,8 +81,8 @@ export default class Results extends React.Component {
     battle([playerOne, playerTwo])
       .then((players) => {
         this.setState({
-          winner: players[0],
-          loser: players[1],
+          playerOne: players[0],
+          playerTwo: players[1],
           error: null,
           loading: false,
         });
@@ -96,7 +96,7 @@ export default class Results extends React.Component {
   }
 
   render() {
-    const { winner, loser, error, loading } = this.state;
+    const { playerOne, playerTwo, error, loading } = this.state;
 
     if (loading === true) {
       return <i>LOADING</i>;
@@ -113,13 +113,17 @@ export default class Results extends React.Component {
         </div>
         <section className="grid">
           <article className="results-container">
-            <Card profile={winner.profile} />
+            <Card profile={playerOne.profile} />
             <p className="results">
               <span>
-                {winner.score === loser.score ? 'Tie' : 'Winner'}{' '}
-                {winner.score.toLocaleString()}
+                {playerOne.winner === true
+                  ? 'Winner'
+                  : playerOne.winner === false && playerTwo.winner === false
+                  ? 'Tie'
+                  : 'Loser'}{' '}
+                {playerOne.score.toLocaleString()}
               </span>
-              {winner.score !== loser.score && (
+              {playerOne.winner === true && (
                 <img
                   width={80}
                   src="https://ui.dev/images/certificate.svg"
@@ -129,12 +133,23 @@ export default class Results extends React.Component {
             </p>
           </article>
           <article className="results-container">
-            <Card profile={loser.profile} />
+            <Card profile={playerTwo.profile} />
             <p className="results">
               <span>
-                {winner.score === loser.score ? 'Tie' : 'Loser'}{' '}
-                {loser.score.toLocaleString()}
+                {playerTwo.winner === true
+                  ? 'Winner'
+                  : playerTwo.winner === false && playerOne.winner === false
+                  ? 'Tie'
+                  : 'Loser'}{' '}
+                {playerTwo.score.toLocaleString()}
               </span>
+              {playerTwo.winner === true && (
+                <img
+                  width={80}
+                  src="https://ui.dev/images/certificate.svg"
+                  alt="Certificate"
+                />
+              )}
             </p>
           </article>
         </section>

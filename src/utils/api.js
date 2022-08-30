@@ -52,6 +52,7 @@ function getStarsCount(repos) {
 }
 
 function calculateScore(followers, repos) {
+  console.log(followers * 3 + getStarsCount(repos));
   return followers * 3 + getStarsCount(repos);
 }
 
@@ -67,8 +68,22 @@ async function getUserData(player) {
   };
 }
 
-function sortPlayers(players) {
-  return players.sort((a, b) => b.score - a.score);
+function determineWinner(players) {
+  const playerOne = players[0];
+  const playerTwo = players[1];
+
+  if (playerOne.score > playerTwo.score) {
+    playerOne.winner = true;
+    playerTwo.winner = false;
+  } else if (playerOne.score < playerTwo.score) {
+    playerOne.winner = false;
+    playerTwo.winner = true;
+  } else {
+    playerOne.winner = false;
+    playerTwo.winner = false;
+  }
+
+  return players;
 }
 
 export async function battle(players) {
@@ -76,6 +91,6 @@ export async function battle(players) {
     getUserData(players[0]),
     getUserData(players[1]),
   ]);
-  
-  return sortPlayers(playersData);
+
+  return determineWinner(playersData);
 }
