@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -24,4 +25,7 @@ module.exports = {
       template: 'src/index.html',
     }),
   ],
+  devServer: {
+    historyApiFallback: true
+  }
 };
