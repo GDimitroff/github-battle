@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { close } from './icons';
+import { close } from '../utils/icons';
 import { Link } from 'react-router-dom';
 
 function Instructions() {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { sunIcon, moonIcon } from './icons';
+import { sunIcon, moonIcon } from '../utils/icons';
 
 export default function Nav({ theme, toggleTheme }) {
   return (

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { hashtag } from './icons';
+import { hashtag } from '../utils/icons';
 import Tooltip from './Tooltip';
 
 function MoreInfo({
