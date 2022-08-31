@@ -19,13 +19,13 @@ module.exports = {
   resolve: {
     extensions: ['.jsx', '...'],
   },
-  mode: 'development',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
   ],
   devServer: {
-    historyApiFallback: true
-  }
+    historyApiFallback: true,
+  },
 };
