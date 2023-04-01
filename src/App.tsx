@@ -1,15 +1,20 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom/client';
-import './index.css';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav';
 import Loading from './components/Loading';
+import './index.css';
 
 const Popular = React.lazy(() => import('./components/Popular'));
 const Battle = React.lazy(() => import('./components/Battle'));
 const Results = React.lazy(() => import('./components/Results'));
 
-class App extends React.Component {
+interface AppProps {}
+
+interface AppState {
+  theme: string;
+}
+
+class App extends React.Component<AppProps, AppState> {
   state = {
     theme: 'light',
   };
@@ -40,6 +45,4 @@ class App extends React.Component {
   }
 }
 
-const rootElement = document.getElementById('app');
-const root = ReactDOM.createRoot(rootElement);
-root.render(<App />);
+export default App;
