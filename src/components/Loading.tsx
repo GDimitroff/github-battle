@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 const styles = {
   fontSize: '14px',
@@ -30,15 +29,6 @@ class Delayed extends React.Component {
   }
 }
 
-Delayed.propTypes = {
-  children: PropTypes.node.isRequired,
-  wait: PropTypes.number.isRequired,
-};
-
-Delayed.defaultProps = {
-  wait: 300,
-};
-
 export default class Loading extends React.Component {
   state = {
     content: this.props.text,
@@ -66,13 +56,3 @@ export default class Loading extends React.Component {
     );
   }
 }
-
-Loading.propTypes = {
-  text: PropTypes.string.isRequired,
-  speed: PropTypes.number.isRequired,
-};
-
-Loading.defaultProps = {
-  text: 'Loading',
-  speed: 300,
-};

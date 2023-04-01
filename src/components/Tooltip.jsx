@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Hover from './Hover';
 
 const container = {
@@ -21,8 +20,3 @@ export default function Tooltip({ children, element }) {
     </Hover>
   );
 }
-
-Tooltip.propTypes = {
-  children: PropTypes.node.isRequired,
-  element: PropTypes.node.isRequired,
-};

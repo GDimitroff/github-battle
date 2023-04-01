@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { close } from '../utils/icons';
 import { Link } from 'react-router-dom';
 
@@ -50,7 +49,8 @@ class PlayerInput extends React.Component {
           <button
             className="btn link"
             type="submit"
-            disabled={!this.state.username}>
+            disabled={!this.state.username}
+          >
             Submit
           </button>
         </div>
@@ -84,12 +84,6 @@ function PlayerPreview({ username, onReset, label }) {
   );
 }
 
-PlayerPreview.propType = {
-  username: PropTypes.string.isRequired,
-  onReset: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-};
-
 export default class Battle extends React.Component {
   state = {
     playerOne: null,
@@ -121,7 +115,8 @@ export default class Battle extends React.Component {
               pathname: '/results',
               search: `?playerOne=${playerOne}&playerTwo=${playerTwo}`,
             }}
-            className={`btn primary ${disabled ? 'disabled' : ''}`}>
+            className={`btn primary ${disabled ? 'disabled' : ''}`}
+          >
             Battle
           </Link>
         </div>

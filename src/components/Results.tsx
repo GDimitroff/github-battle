@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { battle } from '../utils/api';
-import PropTypes from 'prop-types';
 import Loading from './Loading';
 import withSearchParams from './withSearchParams';
 import { Link } from 'react-router-dom';
@@ -52,19 +51,6 @@ function Card({ profile }) {
     </div>
   );
 }
-
-Card.propTypes = {
-  profile: PropTypes.shape({
-    login: PropTypes.string.isRequired,
-    avatar_url: PropTypes.string.isRequired,
-    html_url: PropTypes.string.isRequired,
-    followers: PropTypes.number.isRequired,
-    following: PropTypes.number.isRequired,
-    repositories: PropTypes.number,
-    location: PropTypes.string,
-    company: PropTypes.string,
-  }).isRequired,
-};
 
 class Results extends React.Component {
   state = {

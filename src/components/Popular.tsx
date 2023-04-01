@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { fetchPopularRepos } from '../utils/api';
-import PropTypes from 'prop-types';
 import Table from './Table';
 
 function LanguagesNav({ selected, onUpdateLanguage }) {
@@ -9,7 +8,8 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
   return (
     <select
       onChange={(e) => onUpdateLanguage(e.target.value)}
-      selected={selected}>
+      selected={selected}
+    >
       {languages.map((language) => (
         <option key={language} value={language}>
           {language}
@@ -18,11 +18,6 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
     </select>
   );
 }
-
-LanguagesNav.propTypes = {
-  selected: PropTypes.string.isRequired,
-  onUpdateLanguage: PropTypes.func.isRequired,
-};
 
 export default class Popular extends React.Component {
   state = {

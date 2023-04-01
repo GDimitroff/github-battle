@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { sunIcon, moonIcon } from '../utils/icons';
 
 export default function Nav({ theme, toggleTheme }) {
@@ -8,7 +7,8 @@ export default function Nav({ theme, toggleTheme }) {
     <nav className="split">
       <NavLink
         to="/"
-        className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+        className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}
+      >
         GitHub Battle
       </NavLink>
       <ul className="row">
@@ -17,7 +17,8 @@ export default function Nav({ theme, toggleTheme }) {
             to="/"
             className={({ isActive }) =>
               'nav-link' + (isActive ? ' active' : '')
-            }>
+            }
+          >
             Popular
           </NavLink>
         </li>
@@ -26,7 +27,8 @@ export default function Nav({ theme, toggleTheme }) {
             to="/battle"
             className={({ isActive }) =>
               'nav-link' + (isActive ? ' active' : '')
-            }>
+            }
+          >
             Battle
           </NavLink>
         </li>
@@ -37,8 +39,3 @@ export default function Nav({ theme, toggleTheme }) {
     </nav>
   );
 }
-
-Nav.propTypes = {
-  theme: PropTypes.string.isRequired,
-  toggleTheme: PropTypes.func.isRequired,
-};
