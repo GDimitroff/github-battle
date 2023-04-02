@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { fetchPopularRepos } from '../utils/api';
 import Table from './Table';
+import { fetchPopularRepos } from '../utils/api';
+import { Repo } from '../utils/interfaces';
 
 interface PopularProps {}
 
 interface PopularState {
   selectedLanguage: string;
-  repos: any[] | null;
+  repos: Repo[] | null;
   error: string | null;
 }
 
@@ -47,7 +48,7 @@ export default class Popular extends React.Component<
         console.warn('Error fetching repos: ', error);
 
         this.setState({
-          error: 'There was an error fetching the repositories',
+          error: 'There was an error fetching the repositories!',
         });
       });
   };

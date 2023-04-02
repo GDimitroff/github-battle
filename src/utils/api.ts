@@ -1,4 +1,6 @@
-export async function fetchPopularRepos(language) {
+import { Repo } from './interfaces';
+
+export async function fetchPopularRepos(language: string): Promise<Repo[]> {
   const endpoint = window.encodeURI(
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
   );
@@ -10,7 +12,7 @@ export async function fetchPopularRepos(language) {
     throw new Error(data.message);
   }
 
-  return data.items;
+  return data.items as Repo[];
 }
 
 function getErrorMsg(message, username) {

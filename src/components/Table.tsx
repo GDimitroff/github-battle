@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { hashtag } from '../utils/icons';
 import Tooltip from './Tooltip';
+import { Repo } from '../utils/interfaces';
 
 function MoreInfo({
   created_at,
@@ -106,7 +107,11 @@ function TableRow({
   );
 }
 
-export default function Table({ repos }) {
+interface TableProps {
+  repos: Repo[];
+}
+
+export default function Table({ repos }: TableProps) {
   return (
     <table>
       <TableHead />
