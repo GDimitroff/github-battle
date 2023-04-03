@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { close } from '../utils/icons';
 import { Link } from 'react-router-dom';
+import { close } from '../utils/icons';
 
 function Instructions() {
   return (
@@ -15,20 +15,36 @@ function Instructions() {
   );
 }
 
-class PlayerInput extends React.Component {
-  state = {
-    username: '',
-  };
+interface PlayerInputProps {
+  label: string;
+  onSubmit: (player: string) => void;
+}
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit(this.state.username);
-  };
+interface PlayerInputState {
+  username: string;
+}
 
-  handleChange = (event) => {
+class PlayerInput extends React.Component<PlayerInputProps, PlayerInputState> {
+  constructor(props: PlayerInputProps) {
+    super(props);
+
+    this.state = {
+      username: '',
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       username: event.target.value,
     });
+  };
+
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.onSubmit(this.state.username);
   };
 
   render() {
@@ -59,7 +75,13 @@ class PlayerInput extends React.Component {
   }
 }
 
-function PlayerPreview({ username, onReset, label }) {
+interface PlayerPreviewProps {
+  label: string;
+  username: string;
+  onReset: () => void;
+}
+
+function PlayerPreview({ label, username, onReset }: PlayerPreviewProps) {
   return (
     <article className="card">
       <h3 className="player-label">{label}</h3>
@@ -84,22 +106,36 @@ function PlayerPreview({ username, onReset, label }) {
   );
 }
 
-export default class Battle extends React.Component {
-  state = {
-    playerOne: null,
-    playerTwo: null,
-  };
+interface BattleProps {}
 
-  handleSubmit = (id, player) => {
-    this.setState({
-      [id]: player,
-    });
-  };
+interface BattleState {
+  playerOne: string | null;
+  playerTwo: string | null;
+}
 
-  handleReset = (id) => {
+export default class Battle extends React.Component<BattleProps, BattleState> {
+  constructor(props: BattleProps) {
+    super(props);
+
+    this.state = {
+      playerOne: null,
+      playerTwo: null,
+    };
+
+    this.handleReset = this.handleReset.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleReset = (id: string) => {
     this.setState({
       [id]: null,
-    });
+    } as Pick<BattleState, keyof BattleState>);
+  };
+
+  handleSubmit = (id: string, player: string) => {
+    this.setState({
+      [id]: player,
+    } as Pick<BattleState, keyof BattleState>);
   };
 
   render() {
