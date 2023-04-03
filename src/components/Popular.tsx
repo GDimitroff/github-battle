@@ -60,7 +60,7 @@ export default class Popular extends React.Component<
       <main className="stack main-stack animate-in">
         <div className="split">
           <h1>Popular</h1>
-          <LanguagesSelect
+          <LanguageNav
             selected={selectedLanguage}
             onUpdateLanguage={this.updateLanguage}
           />
@@ -73,12 +73,12 @@ export default class Popular extends React.Component<
   }
 }
 
-interface LanguagesSelectProps {
+interface LanguageNavProps {
   selected: string;
   onUpdateLanguage: (selectedLanguage: string) => void;
 }
 
-function LanguagesSelect({ selected, onUpdateLanguage }: LanguagesSelectProps) {
+function LanguageNav({ selected, onUpdateLanguage }: LanguageNavProps) {
   const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
 
   return (
