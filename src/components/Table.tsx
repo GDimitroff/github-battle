@@ -1,6 +1,6 @@
 import Tooltip from './Tooltip';
 import { hashtag } from '../utils/icons';
-import { Repo } from '../utils/interfaces';
+import { IRepo } from '../utils/interfaces';
 
 interface MoreInfoProps {
   login: string;
@@ -72,7 +72,7 @@ function TableHead() {
 
 interface TableRowProps {
   index: number;
-  repo: Repo;
+  repo: IRepo;
 }
 
 function TableRow({ repo, index }: TableRowProps) {
@@ -128,7 +128,7 @@ function TableRow({ repo, index }: TableRowProps) {
 }
 
 interface TableProps {
-  repos: Repo[];
+  repos: IRepo[];
 }
 
 export default function Table({ repos }: TableProps) {

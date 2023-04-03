@@ -1,21 +1,16 @@
 import * as React from 'react';
 import Table from './Table';
 import { fetchPopularRepos } from '../utils/api';
-import { Repo } from '../utils/interfaces';
-
-interface PopularProps {}
+import { IRepo } from '../utils/interfaces';
 
 interface PopularState {
   selectedLanguage: string;
-  repos: Repo[] | null;
+  repos: IRepo[] | null;
   error: string | null;
 }
 
-export default class Popular extends React.Component<
-  PopularProps,
-  PopularState
-> {
-  constructor(props: PopularProps) {
+export default class Popular extends React.Component<{}, PopularState> {
+  constructor(props: {}) {
     super(props);
 
     this.state = {

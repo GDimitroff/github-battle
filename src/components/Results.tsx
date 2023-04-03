@@ -61,9 +61,9 @@ class Results extends React.Component {
   };
 
   componentDidMount() {
-    const sp = this.props.router.searchParams;
-    const playerOne = sp.get('playerOne');
-    const playerTwo = sp.get('playerTwo');
+    const searchParams = this.props.router.searchParams;
+    const playerOne = searchParams.get('playerOne');
+    const playerTwo = searchParams.get('playerTwo');
 
     battle([playerOne, playerTwo])
       .then((players) => {
