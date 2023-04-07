@@ -1,10 +1,15 @@
 import * as React from 'react';
-import { battle } from '../utils/api';
-import Loading from './Loading';
-import withSearchParams from './withSearchParams';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
+import { battle } from '../utils/api';
+import withSearchParams, { WithSearchParams } from './withSearchParams';
+import { IPlayer, IProfile } from '../utils/interfaces';
 
-function Card({ profile }) {
+interface ICardProps {
+  profile: IProfile;
+}
+
+function Card({ profile }: ICardProps) {
   const {
     login,
     avatar_url,
@@ -52,18 +57,31 @@ function Card({ profile }) {
   );
 }
 
-class Results extends React.Component {
-  state = {
-    playerOne: null,
-    playerTwo: null,
-    error: null,
-    loading: true,
-  };
+interface IResultsProps extends WithSearchParams {}
+
+interface IResultsState {
+  playerOne: IPlayer | null;
+  playerTwo: IPlayer | null;
+  error: string | null;
+  loading: boolean;
+}
+
+class Results extends React.Component<IResultsProps, IResultsState> {
+  constructor(props: IResultsProps) {
+    super(props);
+
+    this.state = {
+      playerOne: null,
+      playerTwo: null,
+      error: null,
+      loading: true,
+    };
+  }
 
   componentDidMount() {
-    const searchParams = this.props.router.searchParams;
-    const playerOne = searchParams.get('playerOne');
-    const playerTwo = searchParams.get('playerTwo');
+    const searchParams = this.props.searchParams;
+    const playerOne = searchParams.get('playerOne')!;
+    const playerTwo = searchParams.get('playerTwo')!;
 
     battle([playerOne, playerTwo])
       .then((players) => {
@@ -93,58 +111,60 @@ class Results extends React.Component {
       return <p className="text-center error">{error}</p>;
     }
 
-    return (
-      <main className="animate-in stack main-stack">
-        <div className="split">
-          <h1>Results</h1>
-          <Link to="/battle" className="btn secondary">
-            Reset
-          </Link>
-        </div>
-        <section className="grid">
-          <article className="results-container">
-            <Card profile={playerOne.profile} />
-            <p className="results">
-              <span>
-                {playerOne.winner === true
-                  ? 'Winner'
-                  : playerOne.winner === false && playerTwo.winner === false
-                  ? 'Tie'
-                  : 'Loser'}{' '}
-                {playerOne.score.toLocaleString()}
-              </span>
-              {playerOne.winner === true && (
-                <img
-                  width={80}
-                  src="https://ui.dev/images/certificate.svg"
-                  alt="Certificate"
-                />
-              )}
-            </p>
-          </article>
-          <article className="results-container">
-            <Card profile={playerTwo.profile} />
-            <p className="results">
-              <span>
-                {playerTwo.winner === true
-                  ? 'Winner'
-                  : playerTwo.winner === false && playerOne.winner === false
-                  ? 'Tie'
-                  : 'Loser'}{' '}
-                {playerTwo.score.toLocaleString()}
-              </span>
-              {playerTwo.winner === true && (
-                <img
-                  width={80}
-                  src="https://ui.dev/images/certificate.svg"
-                  alt="Certificate"
-                />
-              )}
-            </p>
-          </article>
-        </section>
-      </main>
-    );
+    if (playerOne && playerTwo) {
+      return (
+        <main className="animate-in stack main-stack">
+          <div className="split">
+            <h1>Results</h1>
+            <Link to="/battle" className="btn secondary">
+              Reset
+            </Link>
+          </div>
+          <section className="grid">
+            <article className="results-container">
+              <Card profile={playerOne.profile} />
+              <p className="results">
+                <span>
+                  {playerOne.winner === true
+                    ? 'Winner'
+                    : playerOne.winner === false && playerTwo.winner === false
+                    ? 'Tie'
+                    : 'Loser'}{' '}
+                  {playerOne.score.toLocaleString()}
+                </span>
+                {playerOne.winner === true && (
+                  <img
+                    width={80}
+                    src="https://ui.dev/images/certificate.svg"
+                    alt="Certificate"
+                  />
+                )}
+              </p>
+            </article>
+            <article className="results-container">
+              <Card profile={playerTwo.profile} />
+              <p className="results">
+                <span>
+                  {playerTwo.winner === true
+                    ? 'Winner'
+                    : playerTwo.winner === false && playerOne.winner === false
+                    ? 'Tie'
+                    : 'Loser'}{' '}
+                  {playerTwo.score.toLocaleString()}
+                </span>
+                {playerTwo.winner === true && (
+                  <img
+                    width={80}
+                    src="https://ui.dev/images/certificate.svg"
+                    alt="Certificate"
+                  />
+                )}
+              </p>
+            </article>
+          </section>
+        </main>
+      );
+    }
   }
 }
 
