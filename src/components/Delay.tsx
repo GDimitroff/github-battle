@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 interface IDelayedProps {
-  wait: number;
   children: React.ReactNode;
+  wait: number;
 }
 
 interface IDelayedState {
