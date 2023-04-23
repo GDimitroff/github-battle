@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Delayed from './Delay';
 
 const styles: React.CSSProperties = {
   fontSize: '14px',
@@ -8,44 +9,6 @@ const styles: React.CSSProperties = {
   marginTop: '20px',
   textAlign: 'center',
 };
-
-// interface IDelayedProps {
-//   children: React.ReactNode;
-// }
-
-// interface IDelayedState {
-//   show: boolean;
-//   intervalId: number | undefined;
-// }
-
-// class Delayed extends React.Component<IDelayedProps, IDelayedState> {
-//   constructor(props: IDelayedProps) {
-//     super(props);
-
-//     this.state = {
-//       show: false,
-//       intervalId: undefined,
-//     };
-//   }
-
-//   componentDidMount() {
-//     const newIntervalId = window.setTimeout(() => {
-//       this.setState({ show: true });
-//     }, this.props.wait);
-
-//     this.setState({
-//       intervalId: newIntervalId,
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     window.clearInterval(this.state.intervalId);
-//   }
-
-//   render() {
-//     return this.state.show === true ? this.props.children : null;
-//   }
-// }
 
 interface ILoadingProps {
   text: string;
@@ -65,7 +28,7 @@ export default class Loading extends React.Component<
     speed: 300,
   };
 
-  intervalId: ReturnType<typeof setInterval> | undefined;
+  interval: ReturnType<typeof setInterval> | undefined;
 
   constructor(props: ILoadingProps) {
     super(props);
@@ -76,14 +39,9 @@ export default class Loading extends React.Component<
   componentDidMount() {
     const { text, speed } = this.props;
 
-    const newIntervalId = setInterval(() => {
+    this.interval = setInterval(() => {
       this.state.content === text + '...'
-        ? this.setState((prevState) => {
-            return {
-              ...prevState,
-              content: text,
-            };
-          })
+        ? this.setState({ content: text })
         : this.setState((prevState) => {
             return {
               ...prevState,
@@ -91,19 +49,17 @@ export default class Loading extends React.Component<
             };
           });
     }, speed);
-
-    this.intervalId = newIntervalId;
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId);
+    clearInterval(this.interval);
   }
 
   render() {
     return (
-      // <Delayed>
-      <p style={styles}>{this.state.content}</p>
-      // </Delayed>
+      <Delayed>
+        <p style={styles}>{this.state.content}</p>
+      </Delayed>
     );
   }
 }
