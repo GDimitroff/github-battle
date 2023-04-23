@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = {
+const styles: React.CSSProperties = {
   fontSize: '14px',
   position: 'absolute',
   left: '0',
@@ -48,32 +48,33 @@ const styles = {
 // }
 
 interface ILoadingProps {
-  text?: string;
-  speed?: number;
+  text: string;
+  speed: number;
 }
 
 interface ILoadingState {
   content: string;
-  speed: number;
-  intervalId: number | undefined;
 }
 
 export default class Loading extends React.Component<
   ILoadingProps,
   ILoadingState
 > {
+  static defaultProps = {
+    text: 'Loading',
+    speed: 300,
+  };
+
+  intervalId: ReturnType<typeof setInterval> | undefined;
+
   constructor(props: ILoadingProps) {
     super(props);
 
-    this.state = {
-      content: 'Loading',
-      speed: 300,
-      intervalId: undefined,
-    };
+    this.state = { content: props.text };
   }
 
   componentDidMount() {
-    const text = this.props.text || this.state.content;
+    const { text, speed } = this.props;
 
     const newIntervalId = setInterval(() => {
       this.state.content === text + '...'
@@ -89,20 +90,13 @@ export default class Loading extends React.Component<
               content: prevState.content + '.',
             };
           });
-    }, this.state.speed);
+    }, speed);
 
-    console.log(newIntervalId);
-
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        intervalId: newIntervalId,
-      };
-    });
+    this.intervalId = newIntervalId;
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    clearInterval(this.intervalId);
   }
 
   render() {
