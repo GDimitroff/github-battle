@@ -67,16 +67,12 @@ interface IResultsState {
 }
 
 class Results extends React.Component<IResultsProps, IResultsState> {
-  constructor(props: IResultsProps) {
-    super(props);
-
-    this.state = {
-      playerOne: null,
-      playerTwo: null,
-      error: null,
-      loading: true,
-    };
-  }
+  state: IResultsState = {
+    playerOne: null,
+    playerTwo: null,
+    error: null,
+    loading: true,
+  };
 
   componentDidMount() {
     const searchParams = this.props.searchParams;

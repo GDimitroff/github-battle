@@ -25,16 +25,9 @@ interface PlayerInputState {
 }
 
 class PlayerInput extends React.Component<PlayerInputProps, PlayerInputState> {
-  constructor(props: PlayerInputProps) {
-    super(props);
-
-    this.state = {
-      username: '',
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  state: PlayerInputState = {
+    username: '',
+  };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
@@ -114,17 +107,10 @@ interface BattleState {
 }
 
 export default class Battle extends React.Component<BattleProps, BattleState> {
-  constructor(props: BattleProps) {
-    super(props);
-
-    this.state = {
-      playerOne: null,
-      playerTwo: null,
-    };
-
-    this.handleReset = this.handleReset.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  state: BattleState = {
+    playerOne: null,
+    playerTwo: null,
+  };
 
   handleReset = (id: string) => {
     this.setState({

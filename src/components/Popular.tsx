@@ -10,17 +10,11 @@ interface PopularState {
 }
 
 export default class Popular extends React.Component<{}, PopularState> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      selectedLanguage: 'All',
-      repos: null,
-      error: null,
-    };
-
-    this.updateLanguage = this.updateLanguage.bind(this);
-  }
+  state: PopularState = {
+    selectedLanguage: 'All',
+    repos: null,
+    error: null,
+  };
 
   componentDidMount() {
     this.updateLanguage(this.state.selectedLanguage);

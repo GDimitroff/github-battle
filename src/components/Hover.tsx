@@ -9,16 +9,9 @@ interface IHoverState {
 }
 
 export default class Hover extends React.Component<IHoverProps, IHoverState> {
-  constructor(props: IHoverProps) {
-    super(props);
-
-    this.state = {
-      hovering: false,
-    };
-
-    this.mouseOver = this.mouseOver.bind(this);
-    this.mouseOut = this.mouseOut.bind(this);
-  }
+  state: IHoverState = {
+    hovering: false,
+  };
 
   mouseOver = () => {
     this.setState({ hovering: true });

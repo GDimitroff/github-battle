@@ -30,11 +30,9 @@ export default class Loading extends React.Component<
 
   interval: ReturnType<typeof setInterval> | undefined;
 
-  constructor(props: ILoadingProps) {
-    super(props);
-
-    this.state = { content: props.text };
-  }
+  state: ILoadingState = {
+    content: this.props.text,
+  };
 
   componentDidMount() {
     const { text, speed } = this.props;

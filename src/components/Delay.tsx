@@ -19,11 +19,9 @@ export default class Delayed extends React.Component<
 
   timeout: ReturnType<typeof setTimeout> | undefined;
 
-  constructor(props: IDelayedProps) {
-    super(props);
-
-    this.state = { show: false };
-  }
+  state: IDelayedState = {
+    show: false,
+  };
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
