@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export const hashtag = (
   <svg width={10} height={10} viewBox="0 0 10 10">
     <path

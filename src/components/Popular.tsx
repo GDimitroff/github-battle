@@ -1,26 +1,16 @@
 import * as React from 'react';
-import { fetchPopularRepos } from '../utils/api';
 import Table from './Table';
+import { fetchPopularRepos } from '../utils/api';
+import { IRepo } from '../utils/interfaces';
 
-function LanguagesNav({ selected, onUpdateLanguage }) {
-  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
-
-  return (
-    <select
-      onChange={(e) => onUpdateLanguage(e.target.value)}
-      selected={selected}
-    >
-      {languages.map((language) => (
-        <option key={language} value={language}>
-          {language}
-        </option>
-      ))}
-    </select>
-  );
+interface PopularState {
+  selectedLanguage: string;
+  repos: IRepo[] | null;
+  error: string | null;
 }
 
-export default class Popular extends React.Component {
-  state = {
+export default class Popular extends React.Component<{}, PopularState> {
+  state: PopularState = {
     selectedLanguage: 'All',
     repos: null,
     error: null,
@@ -30,7 +20,7 @@ export default class Popular extends React.Component {
     this.updateLanguage(this.state.selectedLanguage);
   }
 
-  updateLanguage = (selectedLanguage) => {
+  updateLanguage = (selectedLanguage: string) => {
     this.setState({
       selectedLanguage,
       error: null,
@@ -46,8 +36,8 @@ export default class Popular extends React.Component {
       .catch((error) => {
         console.warn('Error fetching repos: ', error);
 
-        this.state({
-          error: 'There was an error fetching the repositories',
+        this.setState({
+          error: 'There was an error fetching the repositories!',
         });
       });
   };
@@ -59,7 +49,7 @@ export default class Popular extends React.Component {
       <main className="stack main-stack animate-in">
         <div className="split">
           <h1>Popular</h1>
-          <LanguagesNav
+          <LanguageNav
             selected={selectedLanguage}
             onUpdateLanguage={this.updateLanguage}
           />
@@ -70,4 +60,23 @@ export default class Popular extends React.Component {
       </main>
     );
   }
+}
+
+interface LanguageNavProps {
+  selected: string;
+  onUpdateLanguage: (selectedLanguage: string) => void;
+}
+
+function LanguageNav({ selected, onUpdateLanguage }: LanguageNavProps) {
+  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+
+  return (
+    <select onChange={(e) => onUpdateLanguage(e.target.value)} value={selected}>
+      {languages.map((language) => (
+        <option key={language} value={language}>
+          {language}
+        </option>
+      ))}
+    </select>
+  );
 }

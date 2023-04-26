@@ -1,15 +1,26 @@
-import * as React from 'react';
-import { hashtag } from '../utils/icons';
 import Tooltip from './Tooltip';
+import { hashtag } from '../utils/icons';
+import { IRepo } from '../utils/interfaces';
+
+interface MoreInfoProps {
+  login: string;
+  language: string;
+  type: string;
+  created_at: Date;
+  updated_at: Date;
+  watchers: number;
+  forks: number;
+}
 
 function MoreInfo({
   created_at,
-  forked_count,
+  forks,
   language,
   updated_at,
   watchers,
   login,
-}) {
+  type,
+}: MoreInfoProps) {
   return (
     <ul className="tooltip stack">
       <li className="split">
@@ -20,6 +31,10 @@ function MoreInfo({
           <span>Language:</span> <span>{language}</span>
         </li>
       )}
+      <li className="split">
+        <span>Type:</span>
+        <span>{type}</span>
+      </li>
       <li className="split">
         <span>Created:</span>{' '}
         <span>{new Date(created_at).toLocaleDateString()}</span>
@@ -32,9 +47,9 @@ function MoreInfo({
         <span>Watchers:</span>
         <span>{watchers.toLocaleString()}</span>
       </li>
-      {forked_count && (
+      {forks && (
         <li className="split">
-          <span>Forked:</span> <span>{forked_count.toLocaleString()}</span>
+          <span>Forked:</span> <span>{forks.toLocaleString()}</span>
         </li>
       )}
     </ul>
@@ -55,18 +70,23 @@ function TableHead() {
   );
 }
 
-function TableRow({
-  index,
-  owner,
-  stargazers_count,
-  forks,
-  open_issues,
-  name,
-  created_at,
-  updated_at,
-  language,
-  watchers,
-}) {
+interface TableRowProps {
+  index: number;
+  repo: IRepo;
+}
+
+function TableRow({ repo, index }: TableRowProps) {
+  const {
+    owner,
+    stargazers_count,
+    forks,
+    open_issues,
+    name,
+    created_at,
+    updated_at,
+    language,
+    watchers,
+  } = repo;
   const { login, avatar_url, type } = owner;
 
   return (
@@ -76,12 +96,13 @@ function TableRow({
         <Tooltip
           element={
             <MoreInfo
+              login={login}
               created_at={created_at}
+              type={type}
               language={language}
               updated_at={updated_at}
               watchers={watchers}
-              type={type}
-              login={login}
+              forks={forks}
             />
           }
         >
@@ -106,13 +127,17 @@ function TableRow({
   );
 }
 
-export default function Table({ repos }) {
+interface TableProps {
+  repos: IRepo[];
+}
+
+export default function Table({ repos }: TableProps) {
   return (
     <table>
       <TableHead />
       <tbody>
         {repos.map((repo, index) => {
-          return <TableRow key={index} index={index} {...repo} />;
+          return <TableRow key={repo.id} index={index} repo={repo} />;
         })}
       </tbody>
     </table>

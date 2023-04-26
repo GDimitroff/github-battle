@@ -1,6 +1,7 @@
 import * as React from 'react';
+import Delayed from './Delay';
 
-const styles = {
+const styles: React.CSSProperties = {
   fontSize: '14px',
   position: 'absolute',
   left: '0',
@@ -9,43 +10,47 @@ const styles = {
   textAlign: 'center',
 };
 
-class Delayed extends React.Component {
-  state = {
-    show: false,
-  };
-
-  componentDidMount() {
-    this.timeout = window.setTimeout(() => {
-      this.setState({ show: true });
-    }, this.props.wait);
-  }
-
-  componentWillUnmount() {
-    window.clearTimeout(this.timeout);
-  }
-
-  render() {
-    return this.state.show === true ? this.props.children : null;
-  }
+interface ILoadingProps {
+  text: string;
+  speed: number;
 }
 
-export default class Loading extends React.Component {
-  state = {
+interface ILoadingState {
+  content: string;
+}
+
+export default class Loading extends React.Component<
+  ILoadingProps,
+  ILoadingState
+> {
+  static defaultProps = {
+    text: 'Loading',
+    speed: 300,
+  };
+
+  interval: ReturnType<typeof setInterval> | undefined;
+
+  state: ILoadingState = {
     content: this.props.text,
   };
 
   componentDidMount() {
-    const { speed, text } = this.props;
+    const { text, speed } = this.props;
 
-    this.interval = window.setInterval(() => {
+    this.interval = setInterval(() => {
       this.state.content === text + '...'
         ? this.setState({ content: text })
-        : this.setState(({ content }) => ({ content: content + '.' }));
+        : this.setState((prevState) => {
+            return {
+              ...prevState,
+              content: prevState.content + '.',
+            };
+          });
     }, speed);
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.interval);
+    clearInterval(this.interval);
   }
 
   render() {

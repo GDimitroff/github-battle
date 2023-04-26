@@ -1,19 +1,24 @@
 import * as React from 'react';
 import Hover from './Hover';
 
-const container = {
+const container: React.CSSProperties = {
   position: 'relative',
   display: 'flex',
 };
 
-export default function Tooltip({ children, element }) {
+interface ITooltipProps {
+  children: React.ReactNode;
+  element: JSX.Element;
+}
+
+export default function ToolTip(props: ITooltipProps) {
   return (
     <Hover>
       {(hovering) => {
         return (
           <div style={container}>
-            {hovering === true && element}
-            {children}
+            {hovering === true && props.element}
+            {props.children}
           </div>
         );
       }}

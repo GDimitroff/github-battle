@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { close } from '../utils/icons';
 import { Link } from 'react-router-dom';
+import { close } from '../utils/icons';
 
 function Instructions() {
   return (
@@ -15,20 +15,29 @@ function Instructions() {
   );
 }
 
-class PlayerInput extends React.Component {
-  state = {
+interface PlayerInputProps {
+  label: string;
+  onSubmit: (player: string) => void;
+}
+
+interface PlayerInputState {
+  username: string;
+}
+
+class PlayerInput extends React.Component<PlayerInputProps, PlayerInputState> {
+  state: PlayerInputState = {
     username: '',
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit(this.state.username);
-  };
-
-  handleChange = (event) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       username: event.target.value,
     });
+  };
+
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.onSubmit(this.state.username);
   };
 
   render() {
@@ -59,7 +68,13 @@ class PlayerInput extends React.Component {
   }
 }
 
-function PlayerPreview({ username, onReset, label }) {
+interface PlayerPreviewProps {
+  label: string;
+  username: string;
+  onReset: () => void;
+}
+
+function PlayerPreview({ label, username, onReset }: PlayerPreviewProps) {
   return (
     <article className="card">
       <h3 className="player-label">{label}</h3>
@@ -84,22 +99,29 @@ function PlayerPreview({ username, onReset, label }) {
   );
 }
 
-export default class Battle extends React.Component {
-  state = {
+interface BattleProps {}
+
+interface BattleState {
+  playerOne: string | null;
+  playerTwo: string | null;
+}
+
+export default class Battle extends React.Component<BattleProps, BattleState> {
+  state: BattleState = {
     playerOne: null,
     playerTwo: null,
   };
 
-  handleSubmit = (id, player) => {
-    this.setState({
-      [id]: player,
-    });
-  };
-
-  handleReset = (id) => {
+  handleReset = (id: string) => {
     this.setState({
       [id]: null,
-    });
+    } as Pick<BattleState, keyof BattleState>);
+  };
+
+  handleSubmit = (id: string, player: string) => {
+    this.setState({
+      [id]: player,
+    } as Pick<BattleState, keyof BattleState>);
   };
 
   render() {

@@ -1,7 +1,15 @@
 import * as React from 'react';
 
-export default class Hover extends React.Component {
-  state = {
+interface IHoverProps {
+  children: (hovering: boolean) => React.ReactNode;
+}
+
+interface IHoverState {
+  hovering: boolean;
+}
+
+export default class Hover extends React.Component<IHoverProps, IHoverState> {
+  state: IHoverState = {
     hovering: false,
   };
 

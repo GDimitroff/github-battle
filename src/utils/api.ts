@@ -1,4 +1,6 @@
-export async function fetchPopularRepos(language) {
+import { IPlayer, IProfile, IRepo } from './interfaces';
+
+export async function fetchPopularRepos(language: string): Promise<IRepo[]> {
   const endpoint = window.encodeURI(
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
   );
@@ -10,10 +12,10 @@ export async function fetchPopularRepos(language) {
     throw new Error(data.message);
   }
 
-  return data.items;
+  return data.items as IRepo[];
 }
 
-function getErrorMsg(message, username) {
+function getErrorMsg(message: string, username: string) {
   if (message === 'Not Found') {
     return `${username} doesn't exist`;
   }
@@ -21,7 +23,7 @@ function getErrorMsg(message, username) {
   return message;
 }
 
-async function getProfile(username) {
+async function getProfile(username: string): Promise<IProfile> {
   const response = await fetch(`https://api.github.com/users/${username}`);
   const profile = await response.json();
 
@@ -29,10 +31,10 @@ async function getProfile(username) {
     throw new Error(getErrorMsg(profile.message, username));
   }
 
-  return profile;
+  return profile as IProfile;
 }
 
-async function getRepos(username) {
+async function getRepos(username: string): Promise<IRepo[]> {
   const response = await fetch(
     `https://api.github.com/users/${username}/repos?per_page=100`
   );
@@ -42,20 +44,20 @@ async function getRepos(username) {
     throw new Error(getErrorMsg(repos.message, username));
   }
 
-  return repos;
+  return repos as IRepo[];
 }
 
-function getStarsCount(repos) {
+function getStarsCount(repos: IRepo[]) {
   return repos.reduce((count, { stargazers_count }) => {
     return count + stargazers_count;
   }, 0);
 }
 
-function calculateScore(followers, repos) {
+function calculateScore(followers: number, repos: IRepo[]) {
   return followers * 3 + getStarsCount(repos);
 }
 
-async function getUserData(player) {
+async function getUserData(player: string): Promise<IPlayer> {
   const [profile, repos] = await Promise.all([
     getProfile(player),
     getRepos(player),
@@ -64,10 +66,11 @@ async function getUserData(player) {
   return {
     profile,
     score: calculateScore(profile.followers, repos),
+    winner: null,
   };
 }
 
-function determineWinner(players) {
+function determineWinner(players: IPlayer[]) {
   const playerOne = players[0];
   const playerTwo = players[1];
 
@@ -85,7 +88,7 @@ function determineWinner(players) {
   return players;
 }
 
-export async function battle(players) {
+export async function battle(players: string[]) {
   const playersData = await Promise.all([
     getUserData(players[0]),
     getUserData(players[1]),
