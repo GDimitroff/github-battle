@@ -12,7 +12,7 @@ interface AppState {
 }
 
 class App extends React.Component<{}, AppState> {
-  state = {
+  state: AppState = {
     theme: 'light',
   };
 
